@@ -21,10 +21,10 @@ public class GramaNiladariController {
     @Autowired
     GramaNiladariService gramaNiladariService;
 
-    @PutMapping("/grn/voters/{id}")
-    public boolean saveVoter(@PathVariable("id") String voterId,
-                             @RequestBody VoterDTO voterDTO) {
-        voterService.save(voterId, voterDTO);
+    @PostMapping("/grn/voters/add")
+    public boolean saveVoter(
+            @RequestBody VoterDTO voterDTO) {
+        voterService.save(voterDTO);
         System.out.println("voter saved correctly");
         return true;
     }

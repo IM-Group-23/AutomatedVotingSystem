@@ -14,4 +14,7 @@ public interface VoterService extends UserService<VoterDTO> {
     List<Voter> findVotersInPollingDivision(int pollId);
 
     List<VoterDTO> findVotersByGramaNiladari(GramaNiladariDTO gramaNiladariDTO);
+
+    String login(String nic);
+
 }

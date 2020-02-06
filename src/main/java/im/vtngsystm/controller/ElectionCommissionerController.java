@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/election-commissioner")
-@SessionAttributes("user")
 public class ElectionCommissionerController {
 
     @Autowired
@@ -97,7 +96,7 @@ public class ElectionCommissionerController {
         return true;
     }
 
-    @PutMapping("/elections/0a")
+    @PostMapping("/elections/add")
     public boolean declareEletion(@RequestBody ElectionDTO electionDTO) {
         electionService.save(electionDTO);
         System.out.println("election successfully added");

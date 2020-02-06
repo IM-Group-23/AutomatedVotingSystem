@@ -1,7 +1,6 @@
 package im.vtngsystm.controller;
 
 import im.vtngsystm.dto.ElectionDTO;
-import im.vtngsystm.dto.UserDTO;
 import im.vtngsystm.dto.VoteDTO;
 import im.vtngsystm.dto.VoterDTO;
 import im.vtngsystm.service.custom.ElectionService;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -39,15 +37,8 @@ public class VoterController {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody UserDTO userDTO, HttpServletRequest httpServletRequest) {
-        boolean b = voterService.logIn(userDTO);
-        if (b) {
-            voter = voterService.findByID(userDTO.getUsername());
-            httpServletRequest.getSession().setAttribute("user", voter);
-            return b;
-        }
-        return false;
-
+    public String login(@RequestParam String nic) {
+        return voterService.login(nic);
     }
 
     @GetMapping("/election/history")

@@ -11,7 +11,7 @@ public class UserEntity extends SuperEntity {
     @Column(name = "USERNAME")
     protected String username;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD", nullable = true)
     protected String password;
 
     @Column(name = "FULL_NAME", nullable = false)

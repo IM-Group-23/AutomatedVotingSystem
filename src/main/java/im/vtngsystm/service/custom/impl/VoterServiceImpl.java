@@ -4,17 +4,22 @@ import im.vtngsystm.dto.GramaNiladariDTO;
 import im.vtngsystm.dto.VoterDTO;
 import im.vtngsystm.entity.GramaNiladari;
 import im.vtngsystm.entity.PollingDivision;
+import im.vtngsystm.entity.Vote;
 import im.vtngsystm.entity.Voter;
 import im.vtngsystm.repository.PollingDivisionRepository;
+import im.vtngsystm.repository.VoteRepository;
 import im.vtngsystm.repository.VoterRepository;
 import im.vtngsystm.service.custom.VoterService;
 import im.vtngsystm.service.util.EntityDtoConvertor;
+import im.vtngsystm.service.util.SMS_Sender;
+import im.vtngsystm.service.util.VoterStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -26,12 +31,20 @@ public class VoterServiceImpl implements VoterService {
     private VoterRepository voterRepository;
     @Autowired
     private PollingDivisionRepository pollingDivisionRepository;
+    @Autowired
+    private VoteRepository voteRepository;
 
     @Override
     public void save(String id, VoterDTO dto) {
         if (dto.getUsername().equals(id)) {
             throw new RuntimeException("Voter's ID mismatched");
         }
+        Voter entity = (Voter) entityDtoConvertor.convertToEntity(dto);
+        voterRepository.save(entity);
+    }
+
+    @Override
+    public void save(VoterDTO dto) {
         Voter entity = (Voter) entityDtoConvertor.convertToEntity(dto);
         voterRepository.save(entity);
     }
@@ -96,5 +109,35 @@ public class VoterServiceImpl implements VoterService {
     @Override
     public long getCount() {
         return voterRepository.count();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public String login(String nic) {
+        Voter voterByUsername = voterRepository.findVoterByUsername(nic);
+        if (voterByUsername != null) {
+            List<Vote> votesByVoter = voteRepository.findVotesByVoter(nic);
+            System.out.println(votesByVoter + "-----------------------------------------------");
+            if (votesByVoter == null || votesByVoter.size() == 0) {
+                boolean b = sendOTPMsg(voterByUsername);
+                if (b)
+                    return VoterStatus.OTP_SENT.toString();
+                return VoterStatus.ERROR_LOGGING_IN.toString();
+            } else {
+                return VoterStatus.ALREADY_VOTED.toString();
+            }
+        }
+        return VoterStatus.INVALID_NIC.toString();
+    }
+
+    private boolean sendOTPMsg(Voter voter) {
+        String contactNo = voter.getContactNo();
+        String otp = new Random(100000).toString();
+        int i = voterRepository.updateVoterPassword(otp, voter.getUsername());
+        if (i > 0) {
+            return SMS_Sender.sendOTP(contactNo, otp);
+        }
+        System.out.println("password updated--------------------" + i);
+        return false;
     }
 }

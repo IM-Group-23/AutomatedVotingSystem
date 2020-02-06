@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface UserService<T extends UserDTO> {
 
+    default void save(T dto) {
+    }
+
     void save(String id, T dto);
 
     void update(String id, T dto);

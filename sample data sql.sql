@@ -17,5 +17,6 @@ insert into election_contestant values(1,1,1);
 insert into grama_niladari values('grn1','asda','zdfs','sf','adf','af','sdf',1);
 insert into voter values('977430119v','asda','zdfs','sf','Miss.','af','2019-01-21','12121','grn1',1);
 insert into voter values('573521218v','asda','zdfs','sf','adf','af','2019-01-21','12121','grn1',1);
+insert into voter values('598380279v','asda','zdfs','sf','adf','af','2019-01-21','+94713140591','grn1',1);
 insert into vote values(1,'2015-01-03',1,1,1,'977430119v');
 

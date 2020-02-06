@@ -32,30 +32,31 @@ public class GeneralController {
     }
 
     @PostMapping("/{admin}")
-    public boolean adminLogin(@PathVariable("admin") String admin,
+    public UserDTO adminLogin(@PathVariable("admin") String admin,
                               @RequestBody UserDTO userDTO, HttpServletRequest httpRequest) {
+        UserDTO user = null;
         switch (admin) {
             case "ele": {
                 boolean b = electionCommissionerService.logIn(userDTO);
                 if (b) {
                     System.out.println("ele correct");
-                    UserDTO user = electionCommissionerService.findByID(userDTO.getUsername());
-                    httpRequest.getSession().setAttribute("user", user);
-                    return b;
+                    user = electionCommissionerService.findByID(userDTO.getUsername());
+//                    httpRequest.getSession().setAttribute("user", user);
                 }
-
+                break;
             }
             case "grn": {
                 boolean b1 = gramaNiladariService.logIn(userDTO);
                 if (b1) {
                     System.out.println("grn correct");
-                    UserDTO user = gramaNiladariService.findByID(userDTO.getUsername());
-                    httpRequest.getSession().setAttribute("user", user);
-                    return b1;
+                    user = gramaNiladariService.findByID(userDTO.getUsername());
+//                    httpRequest.getSession().setAttribute("user", user);
+
                 }
+                break;
             }
-            default:
-                return false;
+
         }
+        return user;
     }
 }
