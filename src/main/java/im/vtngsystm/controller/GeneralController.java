@@ -8,12 +8,10 @@ import im.vtngsystm.service.custom.GramaNiladariService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@SessionAttributes("user")
 @RequestMapping("/api/v1/general")
 public class GeneralController {
 
@@ -33,13 +31,16 @@ public class GeneralController {
 
     @PostMapping("/{admin}")
     public UserDTO adminLogin(@PathVariable("admin") String admin,
-                              @RequestBody UserDTO userDTO, HttpServletRequest httpRequest) {
+                              @RequestBody UserDTO userDTO) {
         UserDTO user = null;
+        System.out.println("path var = " + admin);
+        userDTO.setUsername(admin + userDTO.getUsername());
         switch (admin) {
             case "ele": {
                 boolean b = electionCommissionerService.logIn(userDTO);
                 if (b) {
                     System.out.println("ele correct");
+                    System.out.println(userDTO.getUsername());
                     user = electionCommissionerService.findByID(userDTO.getUsername());
 //                    httpRequest.getSession().setAttribute("user", user);
                 }
@@ -57,6 +58,8 @@ public class GeneralController {
             }
 
         }
+        System.out.println(user.getClass().getName());
+        System.out.println(user);
         return user;
     }
 }

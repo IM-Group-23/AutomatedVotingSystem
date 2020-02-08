@@ -54,7 +54,7 @@ public class ElectionCommissionerController {
     }
 
     @PutMapping("/grn/{id}")
-    public boolean saveGramaNiladari(@PathVariable("id") String id, GramaNiladariDTO gramaNiladariDTO) {
+    public boolean saveGramaNiladari(@PathVariable("id") String id, @RequestBody GramaNiladariDTO gramaNiladariDTO) {
         gramaNiladariService.save(id, gramaNiladariDTO);
         System.out.println("grama niladari saved successfully");
         return true;

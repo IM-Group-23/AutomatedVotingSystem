@@ -59,4 +59,14 @@ public class UserDTO extends SuperDTO {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

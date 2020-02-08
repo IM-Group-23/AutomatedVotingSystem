@@ -58,6 +58,12 @@ public class Voter extends UserEntity {
         this.gramaNiladari = gramaNiladari;
     }
 
+    public Voter(String username, String password, String name, String title, String email, String address, String contactNo) {
+        super(username, password, name, title, email);
+        this.address = address;
+        this.contactNo = contactNo;
+    }
+
     public LocalDate getBirthdate() {
         return birthdate;
     }

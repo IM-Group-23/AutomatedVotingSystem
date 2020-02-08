@@ -41,6 +41,13 @@ public class Contestant extends SuperEntity {
         this.electionContestants = electionContestants;
     }
 
+    public Contestant(int contestId, String name, PollingDivision pollingDivision, Party party) {
+        this.name = name;
+        this.pollingDivision = pollingDivision;
+        this.party = party;
+        this.contestId = contestId;
+    }
+
     public int getContestId() {
         return contestId;
     }

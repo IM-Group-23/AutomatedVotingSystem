@@ -1,8 +1,5 @@
 package im.vtngsystm.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ContestantDTO extends SuperDTO {
 
     private int contestId;
@@ -11,7 +8,7 @@ public class ContestantDTO extends SuperDTO {
     private String district;
     private String pollDiv;
     private String party;
-    private List<ElectionContestantDTO> electionDetails = new ArrayList<>();
+
 
     public ContestantDTO() {
     }
@@ -23,16 +20,6 @@ public class ContestantDTO extends SuperDTO {
         this.district = district;
         this.pollDiv = pollDiv;
         this.party = party;
-    }
-
-    public ContestantDTO(int contestId, String name, String province, String district, String pollDiv, String party, List<ElectionContestantDTO> electionDetails) {
-        this.contestId = contestId;
-        this.name = name;
-        this.province = province;
-        this.district = district;
-        this.pollDiv = pollDiv;
-        this.party = party;
-        this.electionDetails = electionDetails;
     }
 
     public ContestantDTO(String name, String province, String district, String pollDiv, String party) {
@@ -91,11 +78,4 @@ public class ContestantDTO extends SuperDTO {
         this.party = party;
     }
 
-    public List<ElectionContestantDTO> getElectionDetails() {
-        return electionDetails;
-    }
-
-    public void setElectionDetails(List<ElectionContestantDTO> electionDetails) {
-        this.electionDetails = electionDetails;
-    }
 }

@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 @Scope("session")
@@ -17,11 +16,10 @@ public class VoterDTO extends UserDTO {
     private String district;
     private String pollingDivision;
     private GramaNiladariDTO gramaNiladari;
-    private List<VoteDTO> votes;
 
     public VoterDTO(String username, String password, String name, String title, String email,
                     LocalDate dob, String mobile, String address, String province, String district, String pollingDivision,
-                    GramaNiladariDTO gramaNiladari, List<VoteDTO> votes) {
+                    GramaNiladariDTO gramaNiladari) {
         super(username, password, name, title, email);
         this.dob = dob;
         this.mobile = mobile;
@@ -30,7 +28,6 @@ public class VoterDTO extends UserDTO {
         this.district = district;
         this.pollingDivision = pollingDivision;
         this.gramaNiladari = gramaNiladari;
-        this.votes = votes;
     }
 
     public VoterDTO(String username, String password, String name, String title, String email, String mobile, String address) {
@@ -98,11 +95,4 @@ public class VoterDTO extends UserDTO {
         this.gramaNiladari = gramaNiladari;
     }
 
-    public List<VoteDTO> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<VoteDTO> votes) {
-        this.votes = votes;
-    }
 }

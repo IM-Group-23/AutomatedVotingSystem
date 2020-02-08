@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
-@SessionAttributes
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/grama-niladari")
 public class GramaNiladariController {
 
