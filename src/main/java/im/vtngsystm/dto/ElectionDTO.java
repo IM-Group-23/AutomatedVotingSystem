@@ -16,21 +16,19 @@ public class ElectionDTO extends SuperDTO {
     public ElectionDTO() {
     }
 
-    public ElectionDTO(int id, LocalDate date, LocalTime startTime, LocalTime endTime, String electionType, List<ElectionContestantDTO> candidates) {
+    public ElectionDTO(int id, LocalDate date, LocalTime startTime, LocalTime endTime, String electionType) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.electionType = electionType;
-        this.candidates = candidates;
     }
 
-    public ElectionDTO(LocalDate date, LocalTime startTime, LocalTime endTime, String electionType, List<ElectionContestantDTO> candidates) {
+    public ElectionDTO(LocalDate date, LocalTime startTime, LocalTime endTime, String electionType) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.electionType = electionType;
-        this.candidates = candidates;
     }
 
     public String getElectionType() {

@@ -20,6 +20,12 @@ public class ElectoralDistrictDTO extends SuperDTO {
         this.pollingDivisionDTOS = pollingDivisionDTOS;
     }
 
+    public ElectoralDistrictDTO(int id, String name, String province) {
+        this.id = id;
+        this.name = name;
+        this.province = province;
+    }
+
     public int getId() {
         return id;
     }

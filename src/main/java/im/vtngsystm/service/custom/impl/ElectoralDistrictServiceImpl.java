@@ -75,7 +75,8 @@ public class ElectoralDistrictServiceImpl implements ElectoralDistrictService {
 
     @Override
     public List<PollingDivisionDTO> findPollingDivisionsByDistrict(String name) {
-        ElectoralDistrictDTO byName = findByName(name);
-        return byName.getPollingDivisionDTOS();
+        ElectoralDistrict byDistName = electoralDistrictRepository.findElectoralDistrictByDistName(name);
+        List<PollingDivisionDTO> list = entityDtoConvertor.convertToDtoList(byDistName.getPollingDivisions());
+        return list;
     }
 }

@@ -2,6 +2,7 @@ package im.vtngsystm.service.custom.impl;
 
 import im.vtngsystm.dto.ContestantDTO;
 import im.vtngsystm.dto.PollingDivisionDTO;
+import im.vtngsystm.entity.Contestant;
 import im.vtngsystm.entity.PollingDivision;
 import im.vtngsystm.repository.PollingDivisionRepository;
 import im.vtngsystm.service.custom.PollingDivisionService;
@@ -78,13 +79,13 @@ public class PollingDivisionServiceImpl implements PollingDivisionService {
     public List<ContestantDTO> findContestantsByPollingDivisionAndParty(String details) {
         String[] split = details.split(",");
         System.out.println(Arrays.toString(split));
-        PollingDivisionDTO byName = findByName(split[0]);
-        List<ContestantDTO> contestants = byName.getContestants();
+        PollingDivision pollingDivision = pollingDivisionRepository.findPollingDivisionByPollNameIs(split[0]);
+        List<Contestant> contestants = pollingDivision.getContestants();
         List<ContestantDTO> partyContestants = new ArrayList<>();
-        for (ContestantDTO contestantDTO : contestants
+        for (Contestant contestant : contestants
         ) {
-            if (split[1].equals(contestantDTO.getParty()))
-                partyContestants.add(contestantDTO);
+            if (split[1].equals(contestant.getParty().getPartyInitials()))
+                partyContestants.add((ContestantDTO) entityDtoConvertor.convertToDTO(contestant));
         }
         return partyContestants;
     }

@@ -26,6 +26,13 @@ public class PollingDivisionDTO extends SuperDTO {
         this.gramaNiladaris = gramaNiladaris;
     }
 
+    public PollingDivisionDTO(int pollId, String pollName, String province, String electoralDistrict) {
+        this.pollId = pollId;
+        this.pollName = pollName;
+        this.province = province;
+        this.electoralDistrict = electoralDistrict;
+    }
+
     public int getPollId() {
         return pollId;
     }

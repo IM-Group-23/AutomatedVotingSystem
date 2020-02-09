@@ -1,8 +1,11 @@
 package im.vtngsystm.service.custom.impl;
 
 import im.vtngsystm.dto.GramaNiladariDTO;
+import im.vtngsystm.entity.ElectoralDistrict;
 import im.vtngsystm.entity.GramaNiladari;
-import im.vtngsystm.repository.GramaNiladariRepository;
+import im.vtngsystm.entity.PollingDivision;
+import im.vtngsystm.entity.Province;
+import im.vtngsystm.repository.*;
 import im.vtngsystm.service.custom.GramaNiladariService;
 import im.vtngsystm.service.util.EntityDtoConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,14 +25,21 @@ public class GramaNiladariServiceImpl implements GramaNiladariService {
     @Autowired
     private GramaNiladariRepository gramaNiladariRepository;
 
+    @Autowired
+    ElectoralDistrictRepository electoralDistrictRepository;
+    @Autowired
+    ProvinceRepository provinceRepository;
+    @Autowired
+    VoterRepository voterRepository;
+    @Autowired
+    private PollingDivisionRepository pollingDivisionRepository;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void save(String id, GramaNiladariDTO dto) {
-        System.out.println("------------------------------------------" + id + dto);
-        if (dto.getUsername().equals(id)) {
-            throw new RuntimeException("Grama Niladari's ID mismatched");
-        }
+    public void save(GramaNiladariDTO dto) {
         GramaNiladari entity = (GramaNiladari) entityDtoConvertor.convertToEntity(dto);
+        PollingDivision pollingDivision = pollingDivisionRepository.findPollingDivisionByPollNameIs(dto.getPollDiv());
+        entity.setPollingDivision(pollingDivision);
         gramaNiladariRepository.save(entity);
     }
 
@@ -67,7 +78,19 @@ public class GramaNiladariServiceImpl implements GramaNiladariService {
     @Override
     public List<GramaNiladariDTO> findAll() {
         List<GramaNiladari> all = gramaNiladariRepository.findAll();
-        return entityDtoConvertor.convertToDtoList(all);
+        List<GramaNiladariDTO> list = new ArrayList<>();
+
+        for (GramaNiladari g : all) {
+            GramaNiladariDTO gramaNiladariDTO = (GramaNiladariDTO) entityDtoConvertor.convertToDTO(g);
+            gramaNiladariDTO.setPollDiv(g.getPollingDivision().getPollName());
+            ElectoralDistrict e = electoralDistrictRepository.findElectoralDistrictByPollDivisionName(g.getPollingDivision().getPollName());
+            gramaNiladariDTO.setDistrict(e.getDistName());
+            Province p = provinceRepository.findProvinceByDistrictName(e.getDistName());
+            gramaNiladariDTO.setProvince(p.getProvName());
+            gramaNiladariDTO.setVotersCount(voterRepository.findVotersByGramaNiladari(g).size());
+            list.add(gramaNiladariDTO);
+        }
+        return list;
     }
 
     @Override

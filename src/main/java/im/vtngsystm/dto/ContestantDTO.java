@@ -9,7 +9,6 @@ public class ContestantDTO extends SuperDTO {
     private String pollDiv;
     private String party;
 
-
     public ContestantDTO() {
     }
 

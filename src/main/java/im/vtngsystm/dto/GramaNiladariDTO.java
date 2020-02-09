@@ -3,8 +3,6 @@ package im.vtngsystm.dto;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @Scope("session")
 public class GramaNiladariDTO extends UserDTO {
@@ -14,19 +12,9 @@ public class GramaNiladariDTO extends UserDTO {
     private String district;
     private String pollDiv;
     private String gnProvision;
-    private List<VoterDTO> voters;
+    private int votersCount;
 
     public GramaNiladariDTO() {
-    }
-
-    public GramaNiladariDTO(String username, String password, String name, String title, String email, String mobile, String province, String district, String pollDiv, String gnProvision, List<VoterDTO> voters) {
-        super(username, password, name, title, email);
-        this.mobile = mobile;
-        this.province = province;
-        this.district = district;
-        this.pollDiv = pollDiv;
-        this.gnProvision = gnProvision;
-        this.voters = voters;
     }
 
     public GramaNiladariDTO(String username, String password, String name, String title, String email, String mobile, String province, String district, String pollDiv, String gnProvision) {
@@ -84,11 +72,11 @@ public class GramaNiladariDTO extends UserDTO {
         this.gnProvision = gnProvision;
     }
 
-    public List<VoterDTO> getVoters() {
-        return voters;
+    public int getVotersCount() {
+        return votersCount;
     }
 
-    public void setVoters(List<VoterDTO> voters) {
-        this.voters = voters;
+    public void setVotersCount(int votersCount) {
+        this.votersCount = votersCount;
     }
 }

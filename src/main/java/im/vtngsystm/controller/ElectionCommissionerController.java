@@ -3,7 +3,6 @@ package im.vtngsystm.controller;
 import im.vtngsystm.dto.*;
 import im.vtngsystm.service.custom.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +52,9 @@ public class ElectionCommissionerController {
         return all;
     }
 
-    @PutMapping("/grn/{id}")
-    public boolean saveGramaNiladari(@PathVariable("id") String id, @RequestBody GramaNiladariDTO gramaNiladariDTO) {
-        gramaNiladariService.save(id, gramaNiladariDTO);
+    @PostMapping("/grn/add")
+    public boolean saveGramaNiladari(@RequestBody GramaNiladariDTO gramaNiladariDTO) {
+        gramaNiladariService.save(gramaNiladariDTO);
         System.out.println("grama niladari saved successfully");
         return true;
     }
@@ -234,14 +233,14 @@ public class ElectionCommissionerController {
         return true;
     }
 
-    @PutMapping("/districts/0a")
+    @PostMapping("/districts/add")
     public boolean addDistrict(@RequestBody ElectoralDistrictDTO electoralDistrictDTO) {
         electoralDistrictService.save(electoralDistrictDTO);
         System.out.println("district saved successfully");
         return true;
     }
 
-    @PutMapping("/pollDivs/0a")
+    @PostMapping("/pollDivs/add")
     public boolean addPollingDivision(@RequestBody PollingDivisionDTO pollingDivisionDTO) {
         pollingDivisionService.save(pollingDivisionDTO);
         System.out.println("polling division saved successfully");
@@ -283,7 +282,7 @@ public class ElectionCommissionerController {
         return true;
     }
 
-    @PutMapping(value = "/contestants/0a", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/contestants/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean addContestant(@RequestBody ContestantDTO contestantDTO) {
         contestantService.save(contestantDTO);
         System.out.println("successfully added");
@@ -345,8 +344,8 @@ public class ElectionCommissionerController {
         return voterService.findByID(id);
     }
 
-    @PutMapping(value = "/voters/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void registerVoter(@PathVariable("id") String nic, @RequestBody VoterDTO voterDTO, HttpRequest httpRequest) {
-        voterService.save(nic, voterDTO);
-    }
+//    @PutMapping(value = "/voters/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public void registerVoter(@PathVariable("id") String nic, @RequestBody VoterDTO voterDTO, HttpRequest httpRequest) {
+//        voterService.save(nic, voterDTO);
+//    }
 }

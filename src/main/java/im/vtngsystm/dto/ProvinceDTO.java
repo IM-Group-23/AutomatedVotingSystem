@@ -18,6 +18,11 @@ public class ProvinceDTO extends SuperDTO {
         this.electoralDistrictDTOS = electoralDistrictDTOS;
     }
 
+    public ProvinceDTO(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

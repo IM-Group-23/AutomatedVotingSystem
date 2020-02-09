@@ -45,6 +45,14 @@ public class Election extends SuperEntity {
         this.electionContestants = electionContestants;
     }
 
+    public Election(int elecId, LocalDate date, LocalTime startTime, LocalTime endTime, String type) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.elecId = elecId;
+    }
+
     public int getElecId() {
         return elecId;
     }

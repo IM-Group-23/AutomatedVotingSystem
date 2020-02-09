@@ -49,46 +49,47 @@ public class EntityDtoConvertor {
             e.setCandidateNo(o.getCandidateNO());
             e.setVotes(voteRepository.findVotesByElectionContestantIs(e));
             return e;
+
         } else if (dto instanceof ElectionDTO) {
             ElectionDTO e = (ElectionDTO) dto;
-            List<ElectionContestantDTO> candidates = e.getCandidates();
-            List<ElectionContestant> list = convertToEntityList(candidates);
-            return new Election(e.getId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getElectionType(), list);
+            return new Election(e.getId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getElectionType());
+
         } else if (dto instanceof ElectionCommissionerDTO) {
             ElectionCommissionerDTO e = (ElectionCommissionerDTO) dto;
             return new ElectionCommissioner("ele" + e.getUsername(), e.getPassword(), e.getName(), e.getTitle(), e.getEmail(),
                     e.getPost());
+
         } else if (dto instanceof ElectoralDistrictDTO) {
             ElectoralDistrictDTO e = (ElectoralDistrictDTO) dto;
-            return new ElectoralDistrict(e.getId(), e.getName(), provinceRepository.findProvinceByProvName(e.getProvince()),
-                    convertToEntityList(e.getPollingDivisionDTOS()));
+            return new ElectoralDistrict(e.getName(), provinceRepository.findProvinceByProvName(e.getProvince()));
+
         } else if (dto instanceof GramaNiladariDTO) {
             GramaNiladariDTO g = (GramaNiladariDTO) dto;
             GramaNiladari gramaNiladari = new GramaNiladari("grn" + g.getUsername(), g.getPassword(), g.getName(), g.getTitle(),
                     g.getEmail(), g.getGnProvision(), g.getMobile());
-            PollingDivision pollingDivisionByPollNameIs = pollingDivisionRepository.findPollingDivisionByPollNameIs(g.getPollDiv());
-            gramaNiladari.setPollingDivision(pollingDivisionByPollNameIs);
-            gramaNiladari.setVoters(convertToEntityList(g.getVoters()));
             return gramaNiladari;
+
         } else if (dto instanceof PartyDTO) {
             PartyDTO p = (PartyDTO) dto;
             Party party = new Party(p.getPartyInitials(), p.getPartyName());
-            party.setContestants(convertToEntityList(p.getContestants()));
             return party;
+
         } else if (dto instanceof PollingDivisionDTO) {
             PollingDivisionDTO p = (PollingDivisionDTO) dto;
             return new PollingDivision(p.getPollId(), p.getPollName(),
-                    electoralDistrictRepository.findElectoralDistrictByDistName(p.getElectoralDistrict()),
-                    convertToEntityList(p.getVoters()), convertToEntityList(p.getContestants()), convertToEntityList(p.getGramaNiladaris()));
+                    electoralDistrictRepository.findElectoralDistrictByDistName(p.getElectoralDistrict()));
+
         } else if (dto instanceof ProvinceDTO) {
             ProvinceDTO p = (ProvinceDTO) dto;
             return new Province(p.getName());
+
         } else if (dto instanceof VoteDTO) {
             VoteDTO v = (VoteDTO) dto;
             Voter voter = voterRepository.findById(v.getVoterId()).get();
             ElectionContestant ec = electionContestantRepository.findElectionContestantByContestantAndElection
                     (v.getContestant().getContestId(), v.getElection().getId());
             return new Vote(v.getVoteId(), v.getDateTime(), voter, ec);
+
         } else if (dto instanceof VoterDTO) {
             VoterDTO v = (VoterDTO) dto;
             PollingDivision pollingDivision = pollingDivisionRepository.findPollingDivisionByPollNameIs(v.getPollingDivision());
@@ -105,43 +106,43 @@ public class EntityDtoConvertor {
             Province pp = provinceRepository.findById(e.getProvince().getProvId()).get();
             return new ContestantDTO(c.getContestId(), c.getName(), pp.getProvName(), e.getDistName(), p.getPollName(),
                     c.getParty().getPartyInitials());
+
         } else if (entity instanceof ElectionContestant) {
             ElectionContestant e = (ElectionContestant) entity;
             return new ElectionContestantDTO(e.getContestant().getContestId(), e.getElection().getElecId(), e.getCandidateNo());
+
         } else if (entity instanceof Election) {
             Election e = (Election) entity;
-            List<ElectionContestant> electionContestant = e.getElectionContestant();
-            List<ElectionContestantDTO> list = convertToDtoList(electionContestant);
-            return new ElectionDTO(e.getElecId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getType(), list);
+            return new ElectionDTO(e.getElecId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getType());
+
         } else if (entity instanceof ElectionCommissioner) {
             ElectionCommissioner e = (ElectionCommissioner) entity;
             return new ElectionCommissionerDTO(e.getUsername(), e.getPassword(), e.getName(),
                     e.getTitle(), e.getEmail(), e.getPost());
+
         } else if (entity instanceof ElectoralDistrict) {
             ElectoralDistrict e = (ElectoralDistrict) entity;
-            return new ElectoralDistrictDTO(e.getDistId(), e.getDistName(), e.getProvince().getProvName(), convertToDtoList(e.getPollingDivisions()));
+            return new ElectoralDistrictDTO(e.getDistId(), e.getDistName(), e.getProvince().getProvName());
+
         } else if (entity instanceof GramaNiladari) {
             GramaNiladari g = (GramaNiladari) entity;
             GramaNiladariDTO gramaNiladariDTO = new GramaNiladariDTO(g.getUsername(), g.getPassword(), g.getName(),
                     g.getTitle(), g.getEmail(), g.getContact(), g.getGnProvision());
-            gramaNiladariDTO.setPollDiv(g.getPollingDivision().getPollName());
-            ElectoralDistrict e = electoralDistrictRepository.findElectoralDistrictByPollDivisionName(g.getPollingDivision().getPollName());
-            gramaNiladariDTO.setDistrict(e.getDistName());
-            Province p = provinceRepository.findProvinceByDistrictName(e.getDistName());
-            gramaNiladariDTO.setProvince(p.getProvName());
-            gramaNiladariDTO.setVoters(convertToDtoList(g.getVoters()));
             return gramaNiladariDTO;
+
         } else if (entity instanceof Party) {
             Party p = (Party) entity;
-            return new PartyDTO(p.getPartyInitials(), p.getPartyName(), convertToDtoList(p.getContestants()));
+            return new PartyDTO(p.getPartyInitials(), p.getPartyName());
+
         } else if (entity instanceof PollingDivision) {
             PollingDivision p = (PollingDivision) entity;
             return new PollingDivisionDTO(p.getPollId(), p.getPollName(),
-                    p.getElectoralDistrict().getProvince().getProvName(), p.getElectoralDistrict().getDistName(),
-                    convertToDtoList(p.getVoters()), convertToDtoList(p.getContestants()), convertToDtoList(p.getGramaNiladaris()));
+                    p.getElectoralDistrict().getProvince().getProvName(), p.getElectoralDistrict().getDistName());
+
         } else if (entity instanceof Province) {
             Province p = (Province) entity;
-            return new ProvinceDTO(p.getProvId(), p.getProvName(), convertToDtoList(p.getElectoralDistricts()));
+            List<ElectoralDistrictDTO> list = convertToDtoList(p.getElectoralDistricts());
+            return new ProvinceDTO(p.getProvId(), p.getProvName(), list);
         } else if (entity instanceof Vote) {
             Vote v = (Vote) entity;
             return new VoteDTO(v.getVoteID(), (ElectionDTO) convertToDTO(v.getElectionContestant().getElection()),
@@ -149,11 +150,9 @@ public class EntityDtoConvertor {
                     v.getVote(), v.getDateTime());
         } else if (entity instanceof Voter) {
             Voter v = (Voter) entity;
-            ElectoralDistrict d = electoralDistrictRepository.findElectoralDistrictByPollDivisionName(v.getPollingDivision().getPollName());
-            Province p = provinceRepository.findProvinceByDistrictName(d.getDistName());
             return new VoterDTO(v.getUsername(), v.getPassword(), v.getName(), v.getTitle(), v.getEmail(),
-                    v.getBirthdate(), v.getContactNo(), v.getAddress(), p.getProvName(), d.getDistName(),
-                    v.getPollingDivision().getPollName(), null
+                    v.getBirthdate(), v.getContactNo(), v.getAddress(),
+                    v.getPollingDivision().getPollName()
             );
         }
         return null;

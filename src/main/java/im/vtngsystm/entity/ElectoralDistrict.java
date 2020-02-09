@@ -44,6 +44,11 @@ public class ElectoralDistrict extends SuperEntity {
         this.pollingDivisions = pollingDivisions;
     }
 
+    public ElectoralDistrict(String distName, Province province) {
+        this.distName = distName;
+        this.province = province;
+    }
+
     public int getDistId() {
         return distId;
     }

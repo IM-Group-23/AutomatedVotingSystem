@@ -36,6 +36,14 @@ public class VoterDTO extends UserDTO {
         this.address = address;
     }
 
+    public VoterDTO(String username, String password, String name, String title, String email, LocalDate dob, String mobile, String address, String pollingDivision) {
+        super(username, password, name, title, email);
+        this.dob = dob;
+        this.mobile = mobile;
+        this.address = address;
+        this.pollingDivision = pollingDivision;
+    }
+
     public VoterDTO() {
     }
 
