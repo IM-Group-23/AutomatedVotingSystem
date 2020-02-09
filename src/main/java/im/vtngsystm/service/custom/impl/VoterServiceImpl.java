@@ -6,6 +6,7 @@ import im.vtngsystm.entity.GramaNiladari;
 import im.vtngsystm.entity.PollingDivision;
 import im.vtngsystm.entity.Vote;
 import im.vtngsystm.entity.Voter;
+import im.vtngsystm.repository.GramaNiladariRepository;
 import im.vtngsystm.repository.PollingDivisionRepository;
 import im.vtngsystm.repository.VoteRepository;
 import im.vtngsystm.repository.VoterRepository;
@@ -33,6 +34,9 @@ public class VoterServiceImpl implements VoterService {
     private PollingDivisionRepository pollingDivisionRepository;
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private GramaNiladariRepository gramaNiladariRepository;
 
     @Override
     public void save(String id, VoterDTO dto) {
@@ -102,8 +106,10 @@ public class VoterServiceImpl implements VoterService {
 
     @Override
     public List<VoterDTO> findVotersByGramaNiladari(GramaNiladariDTO gramaNiladariDTO) {
-        List<Voter> votersByGramaNiladari = voterRepository.findVotersByGramaNiladari((GramaNiladari) entityDtoConvertor.convertToEntity(gramaNiladariDTO));
-        return entityDtoConvertor.convertToDtoList(votersByGramaNiladari);
+        GramaNiladari gramaNiladari = gramaNiladariRepository.findById(gramaNiladariDTO.getUsername()).get();
+        List<Voter> votersByGramaNiladari = voterRepository.findVotersByGramaNiladari(gramaNiladari);
+        List<VoterDTO> list = entityDtoConvertor.convertToDtoList(votersByGramaNiladari);
+        return list;
     }
 
     @Override
