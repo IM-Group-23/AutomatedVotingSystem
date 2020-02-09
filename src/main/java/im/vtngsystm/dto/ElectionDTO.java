@@ -1,5 +1,7 @@
 package im.vtngsystm.dto;
 
+import im.vtngsystm.entity.ElectionContestant;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -12,6 +14,7 @@ public class ElectionDTO extends SuperDTO {
     private LocalTime endTime;
     private String electionType;
     private List<ElectionContestantDTO> candidates;
+    private ElectionContestant winner;
 
     public ElectionDTO() {
     }
@@ -77,5 +80,13 @@ public class ElectionDTO extends SuperDTO {
 
     public void setCandidates(List<ElectionContestantDTO> candidates) {
         this.candidates = candidates;
+    }
+
+    public ElectionContestant getWinner() {
+        return winner;
+    }
+
+    public void setWinner(ElectionContestant winner) {
+        this.winner = winner;
     }
 }

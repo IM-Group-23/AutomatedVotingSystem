@@ -348,4 +348,9 @@ public class ElectionCommissionerController {
 //    public void registerVoter(@PathVariable("id") String nic, @RequestBody VoterDTO voterDTO, HttpRequest httpRequest) {
 //        voterService.save(nic, voterDTO);
 //    }
+
+    @PostMapping("/election/results")
+    public ElectionDTO getCurrentElectionResults() {
+        return null;
+    }
 }
