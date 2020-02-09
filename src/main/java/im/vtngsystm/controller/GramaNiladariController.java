@@ -5,6 +5,7 @@ import im.vtngsystm.dto.VoterDTO;
 import im.vtngsystm.service.custom.GramaNiladariService;
 import im.vtngsystm.service.custom.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,17 +50,17 @@ public class GramaNiladariController {
         return byID;
     }
 
-    @GetMapping("/grn/voters")
-    public List<VoterDTO> findGramaNiladarisVoters(@ModelAttribute GramaNiladariDTO gramaNiladariDTO) {
+    @PostMapping(value = "/grn/voters", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<VoterDTO> findGramaNiladarisVoters(@RequestBody GramaNiladariDTO gramaNiladariDTO) {
         List<VoterDTO> votersByGramaNiladari = voterService.findVotersByGramaNiladari(gramaNiladariDTO);
         votersByGramaNiladari.toString();
         return votersByGramaNiladari;
     }
 
-    @PostMapping("/grn/{id}")
-    public boolean updateMyDetails(@PathVariable("id") String id, GramaNiladariDTO gramaNiladariDTO) {
-        gramaNiladariService.update(id, gramaNiladariDTO);
-        return true;
-    }
+//    @PostMapping("/grn/{id}")
+//    public boolean updateMyDetails(@PathVariable("id") String id, GramaNiladariDTO gramaNiladariDTO) {
+//        gramaNiladariService.update(id, gramaNiladariDTO);
+//        return true;
+//    }
 
 }
