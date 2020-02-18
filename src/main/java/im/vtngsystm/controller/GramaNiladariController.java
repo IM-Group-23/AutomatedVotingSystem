@@ -2,6 +2,7 @@ package im.vtngsystm.controller;
 
 import im.vtngsystm.dto.GramaNiladariDTO;
 import im.vtngsystm.dto.VoterDTO;
+import im.vtngsystm.dto.Voter_GRN_DTO;
 import im.vtngsystm.service.custom.GramaNiladariService;
 import im.vtngsystm.service.custom.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,8 @@ public class GramaNiladariController {
     GramaNiladariService gramaNiladariService;
 
     @PostMapping("/grn/voters/add")
-    public boolean saveVoter(
-            @RequestBody VoterDTO voterDTO) {
-        voterService.save(voterDTO);
+    public boolean saveVoter(@RequestBody Voter_GRN_DTO voter_grn_dto) {
+        voterService.save(voter_grn_dto);
         System.out.println("voter saved correctly");
         return true;
     }

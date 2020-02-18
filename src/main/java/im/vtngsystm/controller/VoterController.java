@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @SessionAttributes("user")
-@RequestMapping("/api/v1/voter")
+@RequestMapping("/voter")
 @Scope("session")
 public class VoterController {
 
@@ -36,7 +36,7 @@ public class VoterController {
         return electionService.getCurrentElection();
     }
 
-    @PostMapping("/login")
+    @PostMapping("/new")
     public String login(@RequestParam String nic) {
         return voterService.login(nic);
     }

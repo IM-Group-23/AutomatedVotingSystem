@@ -2,7 +2,12 @@ package im.vtngsystm.service.custom.impl;
 
 import im.vtngsystm.dto.ElectionContestantDTO;
 import im.vtngsystm.dto.ElectionDTO;
+import im.vtngsystm.entity.Contestant;
 import im.vtngsystm.entity.Election;
+import im.vtngsystm.entity.ElectionContestant;
+import im.vtngsystm.entity.ElectionContestantID;
+import im.vtngsystm.repository.ContestantRepository;
+import im.vtngsystm.repository.ElectionContestantRepository;
 import im.vtngsystm.repository.ElectionRepository;
 import im.vtngsystm.service.custom.ContestantService;
 import im.vtngsystm.service.custom.ElectionService;
@@ -28,15 +33,27 @@ public class ElectionServiceImpl implements ElectionService {
     @Autowired
     ContestantService contestantService;
 
+    @Autowired
+    ContestantRepository contestantRepository;
+
+    @Autowired
+    ElectionContestantRepository electionContestantRepository;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void save(ElectionDTO dto) {
-        List<ElectionContestantDTO> candidates = dto.getCandidates();
-        for (ElectionContestantDTO candidate : candidates) {
-            candidate.setContestID(contestantService.findByName(candidate.getContestName()).getContestId());
-        }
+//saving election
         Election entity = (Election) entityDtoConvertor.convertToEntity(dto);
         electionRepository.save(entity);
+        Election electionByDate = electionRepository.findElectionByDate(entity.getDate());
+
+        List<ElectionContestantDTO> candidates = dto.getCandidates();
+
+        for (ElectionContestantDTO candidate : candidates) {
+            Contestant byName = contestantRepository.findContestantByNameEquals(candidate.getContestName());
+            ElectionContestant electionContestant = new ElectionContestant(new ElectionContestantID(electionByDate, byName), candidate.getCandidateNO());
+            electionContestantRepository.save(electionContestant);
+        }
     }
 
     @Override

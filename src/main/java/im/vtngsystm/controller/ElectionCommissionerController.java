@@ -97,6 +97,8 @@ public class ElectionCommissionerController {
 
     @PostMapping("/elections/add")
     public boolean declareEletion(@RequestBody ElectionDTO electionDTO) {
+        System.out.println("request caught-------------------------------------------------------------");
+        System.out.println(electionDTO + "=============election details");
         electionService.save(electionDTO);
         System.out.println("election successfully added");
         return true;

@@ -36,6 +36,11 @@ public class ElectionContestant extends SuperEntity {
         this.votes = votes;
     }
 
+    public ElectionContestant(ElectionContestantID primaryKey, int candidateNo) {
+        this.primaryKey = primaryKey;
+        this.candidateNo = candidateNo;
+    }
+
     public ElectionContestant(ElectionContestantID primaryKey) {
         this.primaryKey = primaryKey;
     }

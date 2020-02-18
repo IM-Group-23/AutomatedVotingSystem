@@ -2,16 +2,14 @@ package im.vtngsystm.dto;
 
 import im.vtngsystm.entity.ElectionContestant;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ElectionDTO extends SuperDTO {
 
     private int id;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String date;
+    private String startTime;
+    private String endTime;
     private String electionType;
     private List<ElectionContestantDTO> candidates;
     private ElectionContestant winner;
@@ -19,7 +17,7 @@ public class ElectionDTO extends SuperDTO {
     public ElectionDTO() {
     }
 
-    public ElectionDTO(int id, LocalDate date, LocalTime startTime, LocalTime endTime, String electionType) {
+    public ElectionDTO(int id, String date, String startTime, String endTime, String electionType) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
@@ -27,7 +25,7 @@ public class ElectionDTO extends SuperDTO {
         this.electionType = electionType;
     }
 
-    public ElectionDTO(LocalDate date, LocalTime startTime, LocalTime endTime, String electionType) {
+    public ElectionDTO(String date, String startTime, String endTime, String electionType) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -50,27 +48,27 @@ public class ElectionDTO extends SuperDTO {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

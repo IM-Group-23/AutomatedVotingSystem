@@ -2,6 +2,7 @@ package im.vtngsystm.service.custom.impl;
 
 import im.vtngsystm.dto.GramaNiladariDTO;
 import im.vtngsystm.dto.VoterDTO;
+import im.vtngsystm.dto.Voter_GRN_DTO;
 import im.vtngsystm.entity.GramaNiladari;
 import im.vtngsystm.entity.PollingDivision;
 import im.vtngsystm.entity.Vote;
@@ -39,17 +40,11 @@ public class VoterServiceImpl implements VoterService {
     private GramaNiladariRepository gramaNiladariRepository;
 
     @Override
-    public void save(String id, VoterDTO dto) {
-        if (dto.getUsername().equals(id)) {
-            throw new RuntimeException("Voter's ID mismatched");
-        }
-        Voter entity = (Voter) entityDtoConvertor.convertToEntity(dto);
-        voterRepository.save(entity);
-    }
-
-    @Override
-    public void save(VoterDTO dto) {
-        Voter entity = (Voter) entityDtoConvertor.convertToEntity(dto);
+    public void save(Voter_GRN_DTO voter_grn_dto) {
+        Voter entity = (Voter) entityDtoConvertor.convertToEntity(voter_grn_dto.getVoterDTO());
+        GramaNiladari gramaNiladari = gramaNiladariRepository.findById(voter_grn_dto.getGramaNiladariDTO().getUsername()).get();
+        entity.setGramaNiladari(gramaNiladari);
+        entity.setPollingDivision(gramaNiladari.getPollingDivision());
         voterRepository.save(entity);
     }
 

@@ -6,6 +6,8 @@ import im.vtngsystm.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,15 @@ public class EntityDtoConvertor {
 
         } else if (dto instanceof ElectionDTO) {
             ElectionDTO e = (ElectionDTO) dto;
-            return new Election(e.getId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getElectionType());
+            System.out.println(e.getDate());
+            System.out.println(e.getStartTime());
+            System.out.println(e.getEndTime());
+            String[] startSplit = e.getStartTime().split(":");
+            String[] endSplit = e.getEndTime().split(":");
+            String[] dateSplit = e.getDate().split("-");
+            return new Election(e.getId(), LocalDate.of(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2])),
+                    LocalTime.of(Integer.parseInt(startSplit[0]), Integer.parseInt(startSplit[1])),
+                    LocalTime.of(Integer.parseInt(endSplit[0]), Integer.parseInt(endSplit[1])), e.getElectionType());
 
         } else if (dto instanceof ElectionCommissionerDTO) {
             ElectionCommissionerDTO e = (ElectionCommissionerDTO) dto;
@@ -92,7 +102,6 @@ public class EntityDtoConvertor {
 
         } else if (dto instanceof VoterDTO) {
             VoterDTO v = (VoterDTO) dto;
-            PollingDivision pollingDivision = pollingDivisionRepository.findPollingDivisionByPollNameIs(v.getPollingDivision());
             return new Voter(v.getUsername(), v.getPassword(), v.getName(), v.getTitle(), v.getEmail(), v.getAddress(), v.getMobile());
         }
         return null;
@@ -113,7 +122,7 @@ public class EntityDtoConvertor {
 
         } else if (entity instanceof Election) {
             Election e = (Election) entity;
-            return new ElectionDTO(e.getElecId(), e.getDate(), e.getStartTime(), e.getEndTime(), e.getType());
+            return new ElectionDTO(e.getElecId(), e.getDate().toString(), e.getStartTime().toString(), e.getEndTime().toString(), e.getType());
 
         } else if (entity instanceof ElectionCommissioner) {
             ElectionCommissioner e = (ElectionCommissioner) entity;
