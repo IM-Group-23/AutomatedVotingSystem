@@ -41,6 +41,7 @@ public class VoterController {
         String status = voterService.login(nic);
         System.out.println("status of login - " + status);
         return status;
+
     }
 
     @GetMapping("/election/history")
