@@ -115,16 +115,19 @@ public class VoterServiceImpl implements VoterService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public String login(String nic) {
-        Voter voterByUsername = voterRepository.findVoterByUsername(nic);
+        Voter voterByUsername = voterRepository.findById(nic).get();
         if (voterByUsername != null) {
+            System.out.println("voter is identified in database-----------------------");
             List<Vote> votesByVoter = voteRepository.findVotesByVoter(nic);
             System.out.println(votesByVoter + "-----------------------------------------------");
             if (votesByVoter == null || votesByVoter.size() == 0) {
+                System.out.println("voter has not already voted");
                 boolean b = sendOTPMsg(voterByUsername);
                 if (b)
                     return VoterStatus.OTP_SENT.toString();
                 return VoterStatus.ERROR_LOGGING_IN.toString();
             } else {
+                System.out.println("voter has already voted");
                 return VoterStatus.ALREADY_VOTED.toString();
             }
         }

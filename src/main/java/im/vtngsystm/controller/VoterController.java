@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @SessionAttributes("user")
-@RequestMapping("/voter")
+@RequestMapping("/api/v1/voter")
 @Scope("session")
 public class VoterController {
 
@@ -36,9 +36,11 @@ public class VoterController {
         return electionService.getCurrentElection();
     }
 
-    @PostMapping("/new")
+    @PostMapping("/login")
     public String login(@RequestParam String nic) {
-        return voterService.login(nic);
+        String status = voterService.login(nic);
+        System.out.println("status of login - " + status);
+        return status;
     }
 
     @GetMapping("/election/history")

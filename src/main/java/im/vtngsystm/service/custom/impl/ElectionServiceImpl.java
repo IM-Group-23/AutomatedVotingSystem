@@ -111,4 +111,9 @@ public class ElectionServiceImpl implements ElectionService {
         Election electionByDate = electionRepository.findElectionByDate(now);
         return (ElectionDTO) entityDtoConvertor.convertToDTO(electionByDate);
     }
+
+    @Override
+    public ElectionDTO getRecentElection() {
+        return null;
+    }
 }

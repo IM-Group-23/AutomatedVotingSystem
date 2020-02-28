@@ -6,4 +6,6 @@ import im.vtngsystm.service.SuperService;
 public interface ElectionService extends SuperService<ElectionDTO> {
 
     ElectionDTO getCurrentElection();
+
+    ElectionDTO getRecentElection();
 }

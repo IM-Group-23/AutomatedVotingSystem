@@ -18,7 +18,7 @@ public interface VoterRepository extends JpaRepository<Voter, String> {
 
     List<Voter> findVotersByPollingDivision(PollingDivision pollingDivision);
 
-    Voter findVoterByUsername(String nic);
+//    Voter findVoterByUsername(String nic);
 
 //    @Query(value = "update VOTER set PASSWORD=?1 where USERNAME=?2", nativeQuery = true)
 //    void updateVoterPassword(String otp,String nic);

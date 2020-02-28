@@ -1,8 +1,5 @@
 package im.vtngsystm.entity;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,15 +20,14 @@ public class Voter extends UserEntity {
     private LocalDate birthdate;
 
     @ManyToOne
-    @JoinColumn(name = "POLL_ID", nullable = false)
+    @JoinColumn(name = "POLL_ID")
     private PollingDivision pollingDivision;
 
     @ManyToOne
-    @JoinColumn(name = "GN_USERNAME", nullable = false)
+    @JoinColumn(name = "GN_USERNAME")
     private GramaNiladari gramaNiladari;
 
     @OneToMany(mappedBy = "voter")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Vote> votes = new ArrayList<>();
 
     public Voter() {
