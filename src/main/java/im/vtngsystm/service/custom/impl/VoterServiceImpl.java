@@ -14,14 +14,12 @@ import im.vtngsystm.repository.VoterRepository;
 import im.vtngsystm.service.custom.VoterService;
 import im.vtngsystm.service.util.EntityDtoConvertor;
 import im.vtngsystm.service.util.SMS_Sender;
-import im.vtngsystm.service.util.VoterStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -38,6 +36,9 @@ public class VoterServiceImpl implements VoterService {
 
     @Autowired
     private GramaNiladariRepository gramaNiladariRepository;
+
+    @Autowired
+    SMS_Sender sms_sender;
 
     @Override
     public void save(Voter_GRN_DTO voter_grn_dto) {
@@ -114,7 +115,7 @@ public class VoterServiceImpl implements VoterService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public String login(String nic) {
+    public int login(String nic) {
         Voter voterByUsername = voterRepository.findById(nic).get();
         if (voterByUsername != null) {
             System.out.println("voter is identified in database-----------------------");
@@ -122,26 +123,30 @@ public class VoterServiceImpl implements VoterService {
             System.out.println(votesByVoter + "-----------------------------------------------");
             if (votesByVoter == null || votesByVoter.size() == 0) {
                 System.out.println("voter has not already voted");
-                boolean b = sendOTPMsg(voterByUsername);
-                if (b)
-                    return VoterStatus.OTP_SENT.toString();
-                return VoterStatus.ERROR_LOGGING_IN.toString();
+                boolean b = sms_sender.generateOTP(voterByUsername);
+                if (b) {
+                    return 1;
+                } else
+//                    return VoterStatus.otp_sent.toString();
+//                return VoterStatus.error_logging_in.toString();
+                    return 0;
             } else {
                 System.out.println("voter has already voted");
-                return VoterStatus.ALREADY_VOTED.toString();
+//                return VoterStatus.already_voted.toString();
+                return 2;
             }
         }
-        return VoterStatus.INVALID_NIC.toString();
+//        return VoterStatus.invalid_nic.toString();
+        return -1;
     }
 
-    private boolean sendOTPMsg(Voter voter) {
-        String contactNo = voter.getContactNo();
-        String otp = new Random(100000).toString();
-        int i = voterRepository.updateVoterPassword(otp, voter.getUsername());
-        if (i > 0) {
-            return SMS_Sender.sendOTP(contactNo, otp);
-        }
-        System.out.println("password updated--------------------" + i);
-        return false;
+    @Override
+    public boolean checkOTP(String nic, String otp) {
+        System.out.println(nic + "-------------------------");
+        Voter voter = voterRepository.findById(nic).get();
+        if (voter.getPassword().equals(otp))
+            return true;
+        else
+            return false;
     }
 }

@@ -16,8 +16,11 @@ public interface VoterService extends UserService<VoterDTO> {
 
     List<VoterDTO> findVotersByGramaNiladari(GramaNiladariDTO gramaNiladariDTO);
 
-    String login(String nic);
+    int login(String nic);
 
     void save(Voter_GRN_DTO voter_grn_dto);
+
+    boolean checkOTP(String nic, String otp);
+
 
 }

@@ -8,13 +8,13 @@ import im.vtngsystm.service.custom.VoteService;
 import im.vtngsystm.service.custom.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@SessionAttributes("user")
 @RequestMapping("/api/v1/voter")
 @Scope("session")
 public class VoterController {
@@ -36,9 +36,10 @@ public class VoterController {
         return electionService.getCurrentElection();
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String nic) {
-        String status = voterService.login(nic);
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public int login(@RequestParam String nic) {
+//        String status = voterService.login(nic);
+        int status = voterService.login(nic);
         System.out.println("status of login - " + status);
         return status;
 
@@ -49,6 +50,11 @@ public class VoterController {
 //        VoterDTO voter = (VoterDTO) httpServletRequest.getSession().getAttribute("user");
         System.out.println("---------------------------------------------------------------------voter in session - " + voter);
         return voteService.findVotesByVoter(voter);
+    }
+
+    @PostMapping("/otp-validate")
+    public boolean checkOTP(@RequestParam String otp, @RequestParam String nic) {
+        return voterService.checkOTP(nic, otp);
     }
 
 }

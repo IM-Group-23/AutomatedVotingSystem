@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +24,8 @@ public interface VoterRepository extends JpaRepository<Voter, String> {
 //    @Query(value = "update VOTER set PASSWORD=?1 where USERNAME=?2", nativeQuery = true)
 //    void updateVoterPassword(String otp,String nic);
 
-    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Modifying()
     @Query("UPDATE Voter v SET v.password = :password WHERE v.username = :nic")
     int updateVoterPassword(@Param("nic") String nic, @Param("password") String otp);
 }

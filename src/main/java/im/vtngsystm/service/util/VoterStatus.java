@@ -1,5 +1,5 @@
 package im.vtngsystm.service.util;
 
 public enum VoterStatus {
-    INVALID_NIC, ALREADY_VOTED, OTP_SENT, ERROR_LOGGING_IN
+    invalid_nic, already_voted, otp_sent, error_logging_in
 }
