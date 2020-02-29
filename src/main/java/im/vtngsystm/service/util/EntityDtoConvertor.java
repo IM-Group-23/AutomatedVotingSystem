@@ -118,7 +118,7 @@ public class EntityDtoConvertor {
 
         } else if (entity instanceof ElectionContestant) {
             ElectionContestant e = (ElectionContestant) entity;
-            return new ContestantDTO(e.getCandidateNo(), e.getContestant().getName(), e.getContestant().getParty().getPartyInitials());
+            return new ElectionContestantDTO(e.getContestant().getContestId(), e.getElection().getElecId(), e.getCandidateNo());
 
         } else if (entity instanceof Election) {
             Election e = (Election) entity;

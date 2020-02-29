@@ -44,16 +44,21 @@ public class ElectionServiceImpl implements ElectionService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void save(ElectionDTO dto) {
 //saving election
+        System.out.println(dto + "-----------------------------------------");
         Election entity = (Election) entityDtoConvertor.convertToEntity(dto);
-        electionRepository.save(entity);
+        System.out.println("election converted");
+        electionRepository.saveAndFlush(entity);
+        System.out.println("election saved");
         Election electionByDate = electionRepository.findElectionByDate(entity.getDate());
+        System.out.println("election retrieved");
 
         List<ElectionContestantDTO> candidates = dto.getCandidates();
 
         for (ElectionContestantDTO candidate : candidates) {
             Contestant byName = contestantRepository.findContestantByNameEquals(candidate.getContestName());
             ElectionContestant electionContestant = new ElectionContestant(new ElectionContestantID(electionByDate, byName), candidate.getCandidateNO());
-            electionContestantRepository.save(electionContestant);
+            electionContestantRepository.saveAndFlush(electionContestant);
+            System.out.println("saving candidates");
         }
     }
 
