@@ -1,5 +1,6 @@
 package im.vtngsystm.service.custom.impl;
 
+import im.vtngsystm.dto.ContestantDTO;
 import im.vtngsystm.dto.ElectionContestantDTO;
 import im.vtngsystm.dto.ElectionDTO;
 import im.vtngsystm.entity.Contestant;
@@ -105,11 +106,12 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public ElectionDTO getCurrentElection() {
+    public List<ContestantDTO> getCurrentElectionCandidates() {
         LocalDate now = LocalDate.now();
         System.out.println(now.toString());
         Election electionByDate = electionRepository.findElectionByDate(now);
-        return (ElectionDTO) entityDtoConvertor.convertToDTO(electionByDate);
+        List<ContestantDTO> list = entityDtoConvertor.convertToDtoList(electionByDate.getElectionContestant());
+        return list;
     }
 
     @Override

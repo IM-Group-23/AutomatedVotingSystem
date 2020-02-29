@@ -29,6 +29,12 @@ public class ContestantDTO extends SuperDTO {
         this.party = party;
     }
 
+    public ContestantDTO(int contestId, String name, String party) {
+        this.contestId = contestId;
+        this.name = name;
+        this.party = party;
+    }
+
     public int getContestId() {
         return contestId;
     }

@@ -1,6 +1,6 @@
 package im.vtngsystm.controller;
 
-import im.vtngsystm.dto.ElectionDTO;
+import im.vtngsystm.dto.ContestantDTO;
 import im.vtngsystm.dto.VoteDTO;
 import im.vtngsystm.dto.VoterDTO;
 import im.vtngsystm.service.custom.ElectionService;
@@ -31,9 +31,9 @@ public class VoterController {
     @Autowired
     private VoterDTO voter;
 
-    @GetMapping("/election")
-    public ElectionDTO getTodaysElection() {
-        return electionService.getCurrentElection();
+    @GetMapping("/election-candidates")
+    public List<ContestantDTO> getTodaysElection() {
+        return electionService.getCurrentElectionCandidates();
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
